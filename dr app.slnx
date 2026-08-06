@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DrApp.Api/DrApp.Api.csproj" />
+  <Project Path="DrApp.Context/DrApp.Context.csproj" />
+</Solution>
