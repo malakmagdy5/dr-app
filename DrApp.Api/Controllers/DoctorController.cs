@@ -88,26 +88,36 @@ namespace DrApp.Api.Controllers
             });
         }
 
-        [HttpGet("Search")]
-        public IActionResult Search([FromQuery] int? specializationId, [FromQuery] string? query)
+        [HttpGet("GetBySpecialization")]
+        public IActionResult GetBySpecialization([FromQuery] int? specializationId, [FromQuery] string? name)
         {
-            var doctorsQuery = _context.Doctor
-                .Include(d => d.Users)
-                .AsQueryable();
 
-            if (specializationId.HasValue)
+            try
             {
-                doctorsQuery = doctorsQuery.Where(d => _context.DoctorSpecializations
-                    .Any(ds => ds.DoctorId == d.Id && ds.SpecializationId == specializationId.Value));
-            }
+                var query = _context.DoctorSpecializations.Include(c => c.Doctor).ThenInclude(c => c.Users)
+                                                          .Include(c => c.Specialization)
+                                                          .Where(c => c.SpecializationId == specializationId);
 
-            if (!string.IsNullOrWhiteSpace(query))
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    query = query.Where(d => d.Doctor.Users.Name.Contains(name));
+                }
+
+                var result = query.Select(c => new
+                {
+
+                    Name = c.Doctor.Users.Name,
+                    Specialization = c.Specialization.Name,
+                    LiscenceNumber = c.Doctor.LiscenceNumber,
+                }).ToList();
+
+                return Ok(result);
+            }
+            catch (Exception ex)
             {
-                doctorsQuery = doctorsQuery.Where(d => d.Users.Name.Contains(query));
-            }
 
-            var results = doctorsQuery.ToList();
-            return Ok(results);
+                throw;
+            }
         }
     }
 }
