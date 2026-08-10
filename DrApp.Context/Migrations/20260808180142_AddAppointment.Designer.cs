@@ -4,6 +4,7 @@ using DrApp.Context.YourNewFolderName;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrApp.Context.Migrations
 {
     [DbContext(typeof(DoctorAppDbContext))]
-    partial class DoctorAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260808180142_AddAppointment")]
+    partial class AddAppointment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,33 +116,6 @@ namespace DrApp.Context.Migrations
                         .IsUnique();
 
                     b.ToTable("Doctor");
-                });
-
-            modelBuilder.Entity("DrApp.Context.Entities.Users.DoctorAvailability", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DayOfWeek")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("DoctorAvailability");
                 });
 
             modelBuilder.Entity("DrApp.Context.Entities.Users.Patient", b =>
@@ -247,17 +223,6 @@ namespace DrApp.Context.Migrations
                         .IsRequired();
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("DrApp.Context.Entities.Users.DoctorAvailability", b =>
-                {
-                    b.HasOne("DrApp.Context.Entities.Users.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
                 });
 
             modelBuilder.Entity("DrApp.Context.Entities.Users.Patient", b =>

@@ -4,6 +4,7 @@ using DrApp.Context.YourNewFolderName;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DrApp.Context.Migrations
 {
     [DbContext(typeof(DoctorAppDbContext))]
-    partial class DoctorAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260808212302_AddDoctorAvailability")]
+    partial class AddDoctorAvailability
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

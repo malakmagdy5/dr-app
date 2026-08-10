@@ -18,9 +18,13 @@
         public string Degree { get; set; }
 
         public string Biography { get; set; }
-        
-        public string PasswordHash { get; set; } 
+
+        public string PasswordHash { get; set; }
+
 
 
     }
 }
+
+
+
